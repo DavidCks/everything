@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# everything
 
-## Getting Started
+This is my **shared codebase** for reusable UI components, hooks, and libraries across multiple React and Next.js projects.
 
-First, run the development server:
+It's just ShadCN with my own components, utilities and whatnnot.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+It’s not a package, not a framework, and definitely not a library anyone should install.
+
+Just **my own central source of truth**, wired into projects using **hard links** to avoid duplication or broken imports.
+
+---
+
+## Why This Exists
+
+Managing shared code across multiple React and Next.js projects is notoriously frustrating. Common issues include:
+
+- ** Symlink Headaches**
+  Tools like `npm link` or `yarn link` often break module resolution in Next.js, lead to duplicated React versions, and confuse TypeScript and Webpack.
+
+- ** Dependency Hell**
+  `npm install` frequently explodes with peer dependency conflicts, especially when mixing versions of React, Next.js, or other libraries (I'm sure you know a good handful)
+
+- ** Version Drift**
+  Trying to keep packages versioned, published, and synced across multiple apps just to reuse a few components is overkill — and easy to mess up.
+
+## What's Inside
+
+A bunch of components, hooks, utilities and pages that all work together to streamline creating a new project.
+
+It's ShadCN, if anything, go use ShadCN instead of using this.
+
+## Usage
+
+To pull shared components, hooks, and libraries into a project, use the `add:everything` script.
+
+This will:
+
+- Prompt you for the path to place `components.json` (default: `./components.json`)
+- Prompt you for the destination folder for the shared code (default: `./src`)
+- Hard-link all files from `src/components`, `src/hooks`, and `src/lib` in this repo into the destination folder
+- Create a hard link to the central `components.json`
+
+### Setup
+
+Make sure you have `bun` installed in the consuming project.
+
+Then add the following script to your `package.json`:
+
+```json
+"scripts": {
+  "add:everything": "bun run node_modules/@davidcks/everything/everything.ts"
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then run
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun run add:everything
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This command assumes your project has access to this repo via node_modules (for example, if it's symlinked locally or installed as a local package).
 
-## Learn More
+### Example output
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+bun run add:everything
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Where should components.json go? [default: ./components.json]:
+Where should the folders (components/hooks/lib) go? [default: ./src]:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Hard linked: ./src/components/Button.tsx -> .../everything/src/components/Button.tsx
+Hard linked: ./components.json -> .../everything/components.json
+```
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is licensed under the MIT License.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+You are free to use, copy, modify, and distribute the code in this repository, privately or publicly, with or without modification, as long as the original license and copyright
+notice are included.
+
+See the [LICENSE](./LICENSE) file for full details.
